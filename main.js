@@ -32,12 +32,14 @@ function aumentaTamanho() {
 
 for (i = 0; i < checkbox.length; i++) {
     checkbox[i].onclick = geraSenha;
+    //console.log(i);
 }
 
-geraSenha();
 
+geraSenha();
 function geraSenha() {
     let alfabeto = '';
+
     if (checkbox[0].checked) {
         alfabeto = alfabeto + letrasMaiusculas;
     }
@@ -50,6 +52,7 @@ function geraSenha() {
     if (checkbox[3].checked) {
         alfabeto = alfabeto + simbolos;
     }
+
     //console.log(alfabeto);
 
     let senha = '';
@@ -61,7 +64,16 @@ function geraSenha() {
     }
     campoSenha.value = senha;
     classificaSenha(alfabeto.length);
+    console.log(alfabeto.length);
+
+    function exibirAlerta() {
+        if (alfabeto.length == 0) {
+            alert('Escolha pelo menos um dos campos.');
+        }
+    }
+    exibirAlerta();
 }
+
 
 function classificaSenha(tamanhoAlfabeto) {
     let entropia = tamanhoSenha * Math.log2(tamanhoAlfabeto);
@@ -74,6 +86,13 @@ function classificaSenha(tamanhoAlfabeto) {
     } else if (entropia <= 35) {
         forcaSenha.classList.add('fraca');
     }
+
     const valorEntropia = document.querySelector('.entropia');
     valorEntropia.textContent = Math.floor(2 ** entropia / (100e6 * 60 * 60 * 24)) + ' dias para um computador quebrar sua senha!';
+    function senhaFraca() {
+        if (valorEntropia.textContent == 0 + ' dias para um computador quebrar sua senha!') {
+            valorEntropia.textContent = 'Senha extremamente fraca, sua segurança está em risco.'
+        }
+    }
+    senhaFraca();
 }
